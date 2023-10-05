@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <button id="uploadBtn">upload start</button>
+    <script>
+      document.getElementById('uploadBtn').addEventListener('click', async () => {
+        const largeArray = new Uint8Array(1024 * 1024);
+        for (let i = 0; i < largeArray.length; i++) {
+          largeArray[i] = i % 256;
+        }
+        const t1 = Date.now();
+        console.log(`start uploading... ${Date()}`);
+        const response = await fetch('http://localhost:3000/upload', {
+          method: 'POST',
+          body: largeArray,
+        });
+        const t2 = (Date.now() - t1) / 1000;
+        if (response.status === 200) {
+          const t3 = (Date.now() - t1) / 1000;
+          console.log(`uploading took ${t3} seconds`);
+        }
+      });
+    </script>
+  </body>
+</html>
